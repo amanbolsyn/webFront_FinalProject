@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+.timeline {
+    position: relative;
+    padding: 50px 0;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: #ddd;
+    transform: translateX(-50%);
+}
+.timeline-event {
+    position: relative;
+    margin-bottom: 50px;
+    padding-left: 50%;
+}
+.timeline-event::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border: 2px solid#FC6736;;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+.timeline-event .content {
+    position: relative;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    border-left: 4px solid#FC6736;;
+}
+.timeline-event .date {
+    font-size: 16px;
+    font-weight: bold;
+    color: #6c757d;
+}
+.timeline-event .title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+    color: #333;
+}
+.timeline-event .description {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Animations */
+.timeline-event {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+.timeline-event.active {
+    opacity: 1;
+    transform: translateX(0);
+}

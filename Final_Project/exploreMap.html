@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel = "stylesheet" href = "styles/exploreMapStyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Area</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        <!-- Highcharts CSS for Visualization -->
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/highcharts-more.js"></script>
+        <script src="https://code.highcharts.com/modules/map.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="main.html" id="logo">AllRecipes</a>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0" id="navMenu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="aboutUs.html">About us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contacts.html">Contacts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="signup.html">Sign Up</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                <a class="dropdown-item" href="#">Dinner</a>
+                                <a class="dropdown-item" href="#">Meals</a>
+                                <a class="dropdown-item" href="#">Ingredients</a>
+                                <a class="dropdown-item" href="#">Occasions</a>
+                                <a class="dropdown-item" href="exploreMap.html">Explore Area</a>
+                                <a class="dropdown-item" href="createRecipe.html">Create Recipe List</a>
+                                <a class="dropdown-item" href="quiz.html">Quiz</a>
+                                <a class="dropdown-item" href="settings.html">Settings</a>
+                                <a class="dropdown-item" href="history.html">History</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="d-flex my-2 my-lg-0">
+                        <input class="form-control me-sm-2" type="text" placeholder="Search" />
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="bttn">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <br>
+    </header>
+
+    <div class="container">
+        <!-- Weather Forecast Section -->
+        
+        <div class="weather-container">
+            
+            <h3>Weather in Astana</h3>
+            <hr style = " width: 200px; /* Adjust the width as desired */
+            margin-left: auto;
+            margin-right: auto;">
+            <p id="weather-description"></p>
+            <p id="temperature"></p>
+            <p id="humidity"></p>
+            <p id="wind-speed"></p>
+            <hr style = " width: 200px; /* Adjust the width as desired */
+            margin-left: auto;
+            margin-right: auto;">
+        </div>
+        
+        <h1 style="text-align: center; margin-top: 20px;">Explore Restaurants in Astana, Kazakhstan</h1>
+        <br>
+        <div id="map" class="container"> </div>
+    </div><br><hr style = " width: 80%; /* Adjust the width as desired */
+    margin-left: auto;
+    margin-right: auto;">
+
+    <!-- Data Visualization Section (Highcharts) -->
+    <div class="charts-container">
+        <div id="price-chart" class="chart-container"></div>
+        <div id="type-chart" class="chart-container"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    
+    <script>
+        // Fetch weather data from OpenWeatherMap API
+        const apiKey = 'd434c7e81a1c7f841c53907f71c7242f';  // Replace with your OpenWeatherMap API Key
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=Astana&appid=${apiKey}&units=metric`;
+
+        fetch(weatherUrl)
+            .then(response => response.json())
+            .then(data => {
+                const weatherDescription = data.weather[0].description;
+                const temperature = data.main.temp;
+                const humidity = data.main.humidity;
+                const windSpeed = data.wind.speed;
+
+                document.getElementById('weather-description').textContent = `Weather: ${weatherDescription}`;
+                document.getElementById('temperature').textContent = `Temperature: ${temperature}°C`;
+                document.getElementById('humidity').textContent = `Humidity: ${humidity}%`;
+                document.getElementById('wind-speed').textContent = `Wind Speed: ${windSpeed} m/s`;
+            })
+            .catch(error => console.error('Error fetching weather data:', error));
+
+        // Initialize the map and set the view to Nur-Sultan (formerly Astana)
+        const map = L.map('map').setView([51.1694, 71.4491], 12); // Coordinates for Nur-Sultan, Kazakhstan
+
+        // Add tile layer (background map)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Define an array of restaurant locations with details
+        const locations = [
+            {
+                name: "The Shoreditch",
+                type: "Restaurant",
+                lat: 51.1694,
+                lon: 71.4491,
+                address: "ул. Махамбетова 19, Астана 010000, Казахстан",
+                rating: "4.6 stars"
+            },
+            {
+                name: "Sakurа",
+                type: "Restaurant",
+                lat: 51.1545,
+                lon: 71.4605,
+                address: "г. Астана, ул. Сауран 7, Казахстан",
+                rating: "4.7 stars"
+            },
+            {
+                name: "Vino e Cucina",
+                type: "Restaurant",
+                lat: 51.1299,
+                lon: 71.4269,
+                address: "ул. Жандосова 47, Астана 010000, Казахстан",
+                rating: "4.5 stars"
+            },
+            {
+                name: "La Vita",
+                type: "Restaurant",
+                lat: 51.1447,
+                lon: 71.4037,
+                address: "ул. К. Мунайтпасова 11, Астана, Казахстан",
+                rating: "4.4 stars"
+            },
+            {
+                name: "Cafe de la Paix",
+                type: "Restaurant",
+                lat: 51.1705,
+                lon: 71.4378,
+                address: "г. Астана, ул. Достык 16, Казахстан",
+                rating: "4.7 stars"
+            }
+        ];
+
+        // Add markers for each restaurant location
+        locations.forEach(location => {
+            const marker = L.marker([location.lat, location.lon]).addTo(map);
+
+            // Create a popup with details
+            marker.bindPopup(`
+                <div class="popup-title">${location.name}</div>
+                <div class="popup-info"><strong>Type:</strong> ${location.type}</div>
+                <div class="popup-info"><strong>Address:</strong> ${location.address}</div>
+                <div class="popup-info"><strong>Rating:</strong> ${location.rating}</div>
+            `);
+        });
+
+        // Highcharts Visualization (Price Chart - Bar Chart)
+        Highcharts.chart('price-chart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Average Price of Meals in Astana'
+            },
+            xAxis: {
+                categories: ['Restaurant A', 'Restaurant B', 'Restaurant C', 'Restaurant D', 'Restaurant E']
+            },
+            yAxis: {
+                title: {
+                    text: 'Average Price (in KZT)'
+                }
+            },
+            series: [{
+                name: 'Meals',
+                data: [3500, 4000, 3000, 4500, 5000] ,// Example price data in KZT 
+                text: 'tg'
+            }]
+        });
+
+        // Highcharts Visualization (Restaurant Type Distribution - Pie Chart)
+        Highcharts.chart('type-chart', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Restaurant Type Distribution in Astana'
+            },
+            series: [{
+                name: 'Restaurant Types',
+                colorByPoint: true,
+                data: [{
+                    name: 'Italian',
+                    y: 2, // Example count of Italian restaurants
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Japanese',
+                    y: 1 // Example count of Japanese restaurants
+                }, {
+                    name: 'French',
+                    y: 1 // Example count of French restaurants
+                }]
+            }]
+        });
+    </script>
+</body>
+<footer class="bg-body-tertiary text-center text-lg-start">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Copyright:
+        <a> <i>Nurgozhiyev Aman 231613</i></a>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous" defer></script>
+<script src="scripts.js" defer></script> 
+</html>

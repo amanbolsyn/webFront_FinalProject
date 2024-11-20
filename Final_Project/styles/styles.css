@@ -1,0 +1,248 @@
+img {
+    width: 300px;
+    height: 250px;
+}
+
+nav a:hover{
+    text-decoration: underline;
+    text-decoration-color: #FC6736;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#logo{
+    text-decoration: none;
+    font-family:cursive;
+    font-size: 30px;
+    color: #FC6736;
+}
+
+#bttn {
+    border-color:  #FC6736;
+    color: #FC6736;
+    
+}
+
+#loginLink {
+    color:#FC6736;
+    text-decoration: none;
+}
+
+#loginLink:hover{
+    text-decoration: underline;
+    text-decoration-color: #FC6736;
+}
+
+#loginSubmitBttn:hover {
+    background-color:  #FC6736;;
+    color: white
+}
+
+#bttn:hover{
+    background-color:  #FC6736;;
+    color: white;
+}
+
+#signupSubmitBttn, #quizSubmitBttn, #saveBttn,  #loginSubmitBttn{
+    border-color:  #FC6736;
+    color: #FC6736;
+    background-color: white;
+}
+
+#signupSubmitBttn:hover{
+    background-color:  #FC6736;;
+    color: white;
+}
+
+#quizSubmitBttn:hover{
+    background-color:  #FC6736;;
+    color: white;
+}
+
+#saveBttn:hover{
+    background-color:  #FC6736;;
+    color: white;
+}
+
+
+
+html, body {
+    height: 100%; /* Make sure the body takes the full height of the viewport */
+    margin: 0; /* Remove default margin */
+}
+
+body {
+    display: flex; /* Use flexbox for the body */
+    flex-direction: column; /* Arrange children in a column */
+}
+
+main {
+    flex: 1; /* Allow the main section to grow and take available space */
+}
+
+footer {
+    background-color: rgba(0, 0, 0, 0.05); /* Optional background color for the footer */
+}
+
+
+/*Successfull log in animation*/
+.fade-in {
+    animation: fadeIn 5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.success-message {
+    display: none; /* Hide by default */
+    margin-top: 30px;
+    color: green;
+}
+
+
+/* Set fixed height for the carousel */
+#recipeCarousel {
+    max-width: 80%;  /* Limit the width to 80% of the container */
+    margin: 0 auto;  /* Center the carousel horizontally */
+    height: 400px;   /* Set fixed height for the carousel */
+    overflow: hidden; /* Hide any part of the image that goes outside the container */
+}
+
+/* Style the carousel images to fit the fixed height */
+#recipeCarousel .carousel-inner img {
+    width: 100%; /* Make sure the image spans the full width */
+    height: 100%; /* Stretch the image to fit the height of the container */
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+    object-position: center; /* Keep the image centered in the container */
+}
+
+/* Optional: For smaller screens, you can adjust the height of the carousel */
+@media (max-width: 768px) {
+    #recipeCarousel {
+        height: 300px; /* Adjust height for smaller devices */
+    }
+}
+
+
+
+/* Basic styles for the section */
+#info-section {
+    margin-top: 50px;
+    padding: 40px 0;
+}
+
+#info-section h2 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.info-block .card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect on the card */
+.info-block:hover .card {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for scroll into view */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-block {
+    opacity: 0;
+    animation: fadeInUp 1s forwards;
+    animation-delay: 0.3s; /* Delay for the animation */
+}
+
+/* Staggering the animation delay for each block */
+.info-block:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.info-block:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.info-block:nth-child(3) {
+    animation-delay: 0.9s;
+}
+
+
+/* Basic styles for the section */
+#drag-drop-section {
+    margin-top: 50px;
+    padding: 40px 0;
+
+}
+
+#drag-drop-section h2 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Scale the card slightly on hover to show it's draggable */
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Drop Zone Styles */
+.drop-zone {
+    border: 2px dashed  #FC6736;
+    padding: 20px;
+    background-color: #f1f1f1;
+    text-align: center;
+    min-height: 200px;
+    border-radius: 8px;
+}
+
+.dropped-recipes {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Style for dropped recipe items */
+.dropped-item {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropped-item img {
+    width: 100%;
+    height: auto;
+}
+
+.dropped-item h5 {
+    text-align: center;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
